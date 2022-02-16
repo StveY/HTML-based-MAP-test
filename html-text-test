@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	
+	<title>Testing with Leaflet</title>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+
+	<style>
+		html, body {
+			height: 100%;
+			margin: 0;
+		}
+		.leaflet-container {
+			height: 400px;
+			width: 600px;
+			max-width: 100%;
+			max-height: 100%;
+		}
+	</style>
+
+	
+</head>
+<body>
+
+
+
+<div id="map" style="width: 600px; height: 400px;"></div>
+<script>
+
+
+	var map = L.map('map').setView([51.505, -0.09], 13);
+
+  L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18,
+    id: 'mapbox/streets-v11',
+    tileSize: 512,
+    zoomOffset: -1,
+    accessToken: 'pk.eyJ1Ijoic3RldmV5YXMiLCJhIjoiY2t6bzkzamxnMDkzbjJ4bGhib2Vqamw1MyJ9.b2Jegisw-2-SUUtyYAIkNg'
+}).addTo(map);
+
+
+	var marker = L.marker([51.5, -0.09])
+	.addTo(map)
+	.bindPopup('<b>Hello world!</b><br />I am a popup.')
+	.openPopup();
+  
+	var circle = L.circle([51.508, -0.11], {
+    color: '#dc143c',
+    fillColor: 'coral',
+    fillOpacity: 0.5,
+    radius: 500
+	}).addTo(map)
+	.bindPopup('I am a polygon.');
+
+	var circle2 = L.circle([51.516, -0.06], {
+    color: '#dc143c',
+    fillColor: 'coral',
+    fillOpacity: 0.5,
+    radius: 500
+	}).addTo(map)
+	.bindPopup('I am a polygon2.');
+
+	var polygon = L.polygon([
+		[51.509, -0.08],
+		[51.503, -0.06],
+		[51.51, -0.047]
+	]).addTo(map)
+	.bindPopup('I am a polygon.');
+
+
+	var popup = L.popup()
+    .setLatLng([51.513, -0.09])
+    .setContent("I am a standalone popup.")
+    .openOn(map);
+
+
+//function onMapClick(e) {
+//alert("You clicked the map at " + e.latlng);
+//}
+
+	function onMapClick(e) {
+    popup
+        .setLatLng(e.latlng)
+        .setContent("You clicked the map at " + e.latlng.toString())
+        .openOn(map);
+}
+
+map.on('click', onMapClick);
+
+
+</script>
+
+
+
+</body>
+</html>
+
+
